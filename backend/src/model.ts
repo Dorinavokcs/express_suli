@@ -30,3 +30,13 @@ export const createUser = async (user: Omit<User, "id">) => {
     const insertedId = result.insertId;
     return {...user, id: insertedId};
 }
+
+export const removeUser = async(id:number)=>{
+    const [result] = await pool.query<mysql.ResultSetHeader>("DELETE FROM users WHERE id=?",[id]); 
+
+    return result.affectedRows >0
+}
+
+export const modifiedUser =async(id:number , user:Partial<User>)=>{
+    const [result] = await pool.query<mysql.ResultSetHeader>("UPDATE users SET nev = ?, cím = ?, szuletesiDatum = ?", [user.nev, user.cim, user.szuletesiDatum])
+}
