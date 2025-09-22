@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { json } from "stream/consumers";
 import * as path from "node:path";
-import * as url from "node:url";
 import router from "./router.js";
 
 const PORT = 8000;
