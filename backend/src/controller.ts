@@ -1,5 +1,5 @@
 import express, { response } from 'express';
-import { createUser, getUsers, removeUser, modifiedUser } from './model.js';
+import { createUser, getUsers, removeUser, modifiedUser, getUsersById } from './model.js';
 
 export const getAll = async (req: express.Request, res: express.Response) => {
     try {
@@ -40,5 +40,27 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
         res.status(201).type("application/json").send(response);
     }catch(error) {
         res.status(500).type("application/json").send(response);
+    }
+}
+
+export const getCurrentUser = async (req:express.Request, res:express.Response)=>{
+    const getCurrentUser = req.body
+    const id = parseInt(req.params.id!, 10)
+    try{
+       const users = await getUsersById(id)
+       if(users.length===0)res.status(400).type("application/json").send({error:"A felhasznalo nem talalhato"})
+       res.status(200).type("application/json").send(users)
+    }catch(error){
+        res.status(500).type("application/json").send({error:"Szerver hiba"})
+    }
+}
+
+export const updateFullUser = async(req:express.Request, res:express.Response)=>{
+    const data = req.body;
+    const id = Number(req.params.id);
+    try{
+
+    }catch(error){
+
     }
 }
