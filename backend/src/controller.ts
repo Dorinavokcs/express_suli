@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import { createUser, getUsers, removeUser, modifiedUser } from './model.js';
 
 export const getAll = async (req: express.Request, res: express.Response) => {
@@ -19,7 +19,7 @@ export const addUser = async (req: express.Request, res: express.Response) => {
         const user = await createUser(newUser);
         res.status(201).type("application/json").send(user);
     } catch (error) {
-        res.status(500).type("application/json").send("Nem sikerült létrehozni az újn felhasználót!");
+        res.status(500).type("application/json").send({error: "Nem sikerült létrehozni az újn felhasználót!"});
     }
 }
 
@@ -36,9 +36,9 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
     const id = parseInt(req.params.id!, 10);
     try{
         const result = await modifiedUser(id, updateUser);
-        const user = result ? // TODO
-        res.status(201).type("application/json").send(user);
+        const response = result ? {message: "Successful operation"} : {error:"failed operation"}
+        res.status(201).type("application/json").send(response);
     }catch(error) {
-        res.status(500).type("application/json").send("Nem sikerült módosítani a felhasználó adatait!");
+        res.status(500).type("application/json").send(response);
     }
 }
